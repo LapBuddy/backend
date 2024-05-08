@@ -1,11 +1,13 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from knox.models import AuthToken
+from knox.auth import TokenAuthentication
 from knox.views import LoginView as KnoxLoginView
 from rest_framework import generics, permissions, status, viewsets
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .serializers import (ChangePasswordSerializer, RegisterSerializer,
                           UserSerializer)
@@ -32,6 +34,7 @@ class RegisterAPI(generics.GenericAPIView):
         })
 
 # Login API
+# Example POST: {"username":"name","password":"12345"}
 class LoginAPI(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
 
@@ -41,6 +44,18 @@ class LoginAPI(KnoxLoginView):
         user = serializer.validated_data['user']
         login(request, user)
         return super(LoginAPI, self).post(request, format=None)
+
+# Logout API
+# Needs the authorization token in header like so:
+# Authorization: Token <insert_token_here>
+class LogoutAPI(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, format=None):
+        request._auth.delete()
+        logout(request)
+        return Response({"message": "User logged out successfully"}, status=status.HTTP_200_OK)
 
 # Get User API
 class UserAPI(generics.RetrieveAPIView):

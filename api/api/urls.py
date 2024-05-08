@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.urls import include, path
-from accounts.views import UserViewset, RegisterAPI, LoginAPI, UserAPI, ChangePasswordView
+from accounts.views import UserViewset, RegisterAPI, LoginAPI, UserAPI, ChangePasswordView, LogoutAPI
 from other.views import PostViewset, SessionViewset, SetupViewset
-
+from knox import views as knox_views
 from rest_framework import routers
 
 router = routers.DefaultRouter()
@@ -21,4 +21,5 @@ urlpatterns = [
     path("api/login/", LoginAPI.as_view()),
     path("api/me/", UserAPI.as_view()),
     path("api/reset/", ChangePasswordView.as_view()),
+    path('api/logout/', LogoutAPI.as_view(), name='logout'),
 ]
