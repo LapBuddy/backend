@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.urls import include, path
 from accounts.views import UserViewset, RegisterAPI, LoginAPI, UserAPI, ChangePasswordView, LogoutAPI
 from other.views import PostViewset, SessionViewset, SetupViewset
-from knox import views as knox_views
 from rest_framework import routers
 
 router = routers.DefaultRouter()
