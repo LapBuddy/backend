@@ -14,5 +14,5 @@ class SessionSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Session
+        model = Post
         fields = "__all__"
