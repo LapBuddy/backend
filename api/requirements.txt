@@ -6,3 +6,4 @@ django-environ
 django-guardian
 django-rest-knox
 django-rest-passwordreset
+django-cors-headers

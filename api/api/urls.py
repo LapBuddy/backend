@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import include, path
-from accounts.views import UserViewset, RegisterAPI, LoginAPI, UserAPI, ChangePasswordView, LogoutAPI
+from accounts.views import UserViewset, RegisterAPI, LoginAPI, UserAPI, ChangePasswordView, LogoutAPI, csrf
 from other.views import PostViewset, SessionViewset, SetupViewset
 from rest_framework import routers
 
@@ -21,4 +21,5 @@ urlpatterns = [
     path("api/me/", UserAPI.as_view()),
     path("api/reset/", ChangePasswordView.as_view()),
     path('api/logout/', LogoutAPI.as_view(), name='logout'),
+    path('api/csrf/', csrf, name='csrf'),
 ]

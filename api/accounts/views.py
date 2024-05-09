@@ -5,12 +5,15 @@ from knox.auth import TokenAuthentication
 from knox.views import LoginView as KnoxLoginView
 from rest_framework import generics, permissions, status, viewsets
 from rest_framework.authtoken.serializers import AuthTokenSerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .serializers import (ChangePasswordSerializer, RegisterSerializer,
                           UserSerializer)
+
+from django.middleware.csrf import get_token
+from rest_framework.decorators import api_view, permission_classes
 
 
 # Admin viewset to view/ update/ delete/ users 
@@ -98,3 +101,10 @@ class ChangePasswordView(generics.UpdateAPIView):
             return Response(response)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def csrf(request):
+    "Returns CSRF token"
+    return Response({'csrfToken': get_token(request)},
+                    status=status.HTTP_200_OK)
