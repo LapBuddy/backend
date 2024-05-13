@@ -5,7 +5,7 @@ from .models import Setup, Session, Post
 class SetupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Setup
-        fields = "__all__"
+        fields = ["name", "make", "model", "year", "tires", "pressure", "suspension", "other"]
 
 class SessionSerializer(serializers.ModelSerializer):
     class Meta:

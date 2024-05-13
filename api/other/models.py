@@ -10,6 +10,7 @@ class Post(models.Model):
 
 class Setup(models.Model):
     user = models.ForeignKey(User, related_name="setups", on_delete=models.CASCADE, blank=False)
+    name = models.CharField(max_length=50, blank=False)
     make = models.CharField(max_length=50, blank=False)
     model = models.CharField(max_length=50, blank=False)
     year = models.IntegerField(blank=False)
