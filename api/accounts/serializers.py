@@ -15,6 +15,14 @@ class UserSerializer(serializers.ModelSerializer):
             "setups",
         ]
 
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "first_name",
+            "last_name",
+            "email",
+        ]
 
 # Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):
