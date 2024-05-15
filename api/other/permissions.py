@@ -12,8 +12,8 @@ class IsOwnerOrAdminOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        # Write permissions are only allowed to the owner of the object or admin users.
-        return request.user.is_staff
+        # Write permissions are only allowed to the owner of the object or admin users (or you're creating a new obj)
+        return request.user.is_staff or request.method == "POST"
 
     def has_object_permission(self, request, view, obj):
         # Read permissions are allowed to any request,

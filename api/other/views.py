@@ -1,9 +1,10 @@
-from django.contrib.auth.models import User
-from rest_framework import viewsets, permissions
+from rest_framework import generics, permissions, status, viewsets
+from rest_framework.response import Response
 
-from .models import Session, Post, Setup
+from .models import Post, Session, Setup
 from .permissions import IsOwnerOrAdminOrReadOnly
-from .serializers import SessionSerializer, PostSerializer, SetupSerializer
+from .serializers import PostSerializer, SessionSerializer, SetupSerializer
+
 
 # View All/ Add/ Delete/ Update Session objects for DRF admins
 class SessionViewset(viewsets.ModelViewSet):
@@ -31,3 +32,15 @@ class SetupViewset(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class UserSetupViewset(generics.ListAPIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+    serializer_class = SetupSerializer
+    queryset = Setup.objects.all()
+
+    def get_queryset(self):
+        queryset = self.queryset.filter(user=self.request.user)
+        return queryset
